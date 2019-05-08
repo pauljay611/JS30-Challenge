@@ -62,13 +62,27 @@
   <script>
     let key = document.querySelectorAll(".key");
     let audio = document.querySelectorAll("audio");
-    key.forEach((a, b) => {
+    let kbd = document.querySelectorAll("kbd");
+    key.forEach((a) => {
       a.addEventListener('click', () => {
         audio.forEach((el) => {
-          if (el.dataset.key === a.dataset.key) {
+          if (el.dataset.key == a.dataset.key) {
             el.play()
           }
         })
+      })
+    })
+    kbd.forEach((a) => {
+      document.addEventListener('keypress', function (e) {
+        if (e.key == a.textContent.toLowerCase()) {
+          audio.forEach((el) => {
+            key.forEach((b) => {
+              if (el.dataset.key === b.dataset.key) {
+                el.play()
+              }
+            })
+          })
+        }
       })
     })
   </script>
