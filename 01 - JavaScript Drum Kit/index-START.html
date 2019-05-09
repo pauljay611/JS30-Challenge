@@ -61,30 +61,29 @@
 
   <script>
     let key = document.querySelectorAll(".key");
-    let audio = document.querySelectorAll("audio");
     let kbd = document.querySelectorAll("kbd");
     key.forEach((a) => {
-      a.addEventListener('click', () => {
-        audio.forEach((el) => {
-          if (el.dataset.key == a.dataset.key) {
-            el.play()
-          }
-        })
+      a.addEventListener('click', (e) => {
+        const audio = document.querySelector(`audio[data-key="${a.dataset.key}"]`);
+        audio.play()
+        a.classList.add('playing');
       })
     })
-    kbd.forEach((a) => {
-      document.addEventListener('keypress', function (e) {
-        if (e.key == a.textContent.toLowerCase()) {
-          audio.forEach((el) => {
-            key.forEach((b) => {
-              if (el.dataset.key === b.dataset.key) {
-                el.play()
-              }
-            })
-          })
-        }
-      })
+    document.addEventListener('keydown', function (e) {
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      const key = document.querySelector(`div[data-key="${e.keyCode}"]`);
+      if (!audio) return;
+
+      key.classList.add('playing');
+      audio.currentTime = 0;
+      audio.play();
     })
+    key.forEach(keyIndex => keyIndex.addEventListener('transitionend', removeTransition));
+    function removeTransition(e) {
+      console.log(e.propertyName + ',' + e.target)
+      if (e.propertyName !== 'transform') return;
+      e.target.classList.remove('playing');
+    }
   </script>
 
 
