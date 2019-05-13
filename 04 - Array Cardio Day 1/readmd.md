@@ -8,6 +8,9 @@
 - sort
 排序 a - b 為升冪 b-a 為降冪
 
+- includes
+判斷是否包含特定元素，回傳 true or false
+
 - reduce 
 起始值為最後返回 fn 後面, 可讓第一個 accumulator 變成該 init
 ```
