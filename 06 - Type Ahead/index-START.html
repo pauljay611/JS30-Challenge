@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
   <form class="search-form">
@@ -14,9 +16,73 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    let input = document.querySelector('.search')
+    let allData = {}
+    let searchData = []
+    let suggestions = document.querySelector('.suggestions')
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    fetch(endpoint).then((res) => {
+      return res.json()
+    }).then((res) => {
+      console.log(res)
+      allData = res
+    })
+    input.addEventListener('input', () => {
+      searchData = []
+      suggestions.innerHTML = ''
+      allData.forEach((data) => {
+        let find = {}
+        if (data.city.toLowerCase().indexOf(input.value) > -1 || data.state.toLowerCase().indexOf(input.value) > -1) {
+          let city = data.city.toLowerCase().indexOf(input.value)
+          let state = data.state.toLowerCase().indexOf(input.value)
+          find = {
+            city: {
+              name: data.city,
+              word: city
+            },
+            state: {
+              name: data.state,
+              word: state
+            },
+            population: data.population
+          }
+          searchData.push(find)
+        }
+      })
+      searchData.forEach((data) => {
+        let li = document.createElement("li");
+        let wordCity = data.city.name.toLowerCase().split(input.value)
+        let wordCityNode = ``
+        for (let i = 0; i < wordCity.length; i++) {
+          if (i !== wordCity.length - 1) {
+            wordCityNode = wordCityNode + `${wordCity[i]}<span class="hl">${input.value}</span>`
+          } else {
+            wordCityNode = wordCityNode + `${wordCity[i]}`
+          }
+        }
+        let wordState = data.state.name.toLowerCase().split(input.value)
+        let wordStateNode = ``
+        for (let i = 0; i < wordState.length; i++) {
+          if (i !== wordState.length - 1) {
+            wordStateNode = wordStateNode + `${wordState[i]}<span class="hl">${input.value}</span>`
+          } else {
+            wordStateNode = wordStateNode + `${wordState[i]}`
+          }
+        }
+        li.innerHTML = `<span>${wordCityNode}, ${wordStateNode}</span>`
+        let span = document.createElement("span");
+        span.textContent = `${numberWithCommas(data.population)}`
+        span.classList.add('population')
+        li.append(span)
+        suggestions.append(li)
+      })
+    })
+    function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 
-</script>
+  </script>
 </body>
+
 </html>
