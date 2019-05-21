@@ -1,19 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
 </head>
-<body>
-<canvas id="draw" width="800" height="800"></canvas>
-<script>
-</script>
 
-<style>
-  html, body {
-    margin: 0;
-  }
-</style>
+<body>
+  <canvas id="draw" width="1920" height="871"></canvas>
+  <script>
+    const canvas = document.getElementById('draw')
+    const ctx = canvas.getContext('2d')
+    let drawing = false
+
+    window.addEventListener("resize", resizeCanvas, false);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    function resizeCanvas() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    const mouseDown = canvas.addEventListener('mousedown', (e) => {
+      drawing = true
+      draw(e)
+    })
+
+    const mouseMove = canvas.addEventListener('mousemove', (e) => {
+      if (drawing === true) {
+        let pos = getMousePos(e)
+        ctx.lineTo(pos.x, pos.y);
+        ctx.stroke()
+      }
+    })
+
+    const mouseUp = canvas.addEventListener('mouseup', (e) => {
+      drawing = false
+    })
+
+    function draw(e) {
+      let pos = getMousePos(e)
+      ctx.beginPath();
+      let randomWidth = Math.floor(Math.random() * 100)
+      let randomColor = Math.floor(Math.random() * 360)
+      ctx.lineWidth = randomWidth;
+      ctx.strokeStyle = `hsl(${randomColor}, 100%, 50%)`;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.moveTo(pos.x, pos.y);
+    }
+
+    function getMousePos(event) {
+      return {
+        x: event.clientX,
+        y: event.clientY
+      }
+    }
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #draw {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
 
 </body>
+
 </html>
