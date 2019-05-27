@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Key Detection</title>
   <script type="text/javascript" src="http://www.cornify.com/js/cornify.js"></script>
 </head>
+
 <body>
-<script>
-</script>
+  <script>
+    let process = []
+    let secret = 'paul'
+    window.addEventListener('keydown', (e) => {
+      console.log(e.key)
+      process.push(e.key)
+      console.log(process)
+      if (process.join('').includes(secret)) {
+        cornify_add()
+      }
+    })
+  </script>
 </body>
+
 </html>
