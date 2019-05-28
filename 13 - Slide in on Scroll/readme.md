@@ -10,3 +10,7 @@ Y 軸滑動距離
 
 - window.addEventListener('scroll',()
 監聽滾動
+
+- (window.scrollY + window.innerHeight)
+視窗底部
+
