@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Sort Without Articles</title>
 </head>
+
 <body>
 
   <style>
@@ -26,12 +28,12 @@
       padding: 0;
       box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
     }
-    
+
     #bands li {
       border-bottom: 1px solid #efefef;
       padding: 20px;
     }
-    
+
     #bands li:last-child {
       border-bottom: 0;
     }
@@ -40,16 +42,43 @@
       color: #ffc600;
       text-decoration: none;
     }
-
   </style>
 
   <ul id="bands"></ul>
 
-<script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+  <script>
+    const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+    const list = document.querySelector('#bands')
+    bands.sort((a, b) => {
+      let charA = isTheAn(a)
+      let charB = isTheAn(b)
+      if (charB > charA) return -1
+      if (charA > charB) return 1
+    })
 
+    let all = bands.map((band) => {
+      return `<li>${band}</li>`
+    })
 
-</script>
+    list.innerHTML = all.join('')
+
+    function isTheAn(word) {
+      if (word.indexOf('The ') === -1 && word.indexOf('An ') === -1 && word.indexOf('A ') === -1) {
+        return word.charAt(0)
+      } else {
+        if (word.indexOf('The ') !== -1) {
+          return word.charAt(4)
+        }
+        if (word.indexOf('An ') !== -1) {
+          return word.charAt(3)
+        }
+        if (word.indexOf('A ') !== -1) {
+          return word.charAt(2)
+        }
+      }
+    }
+  </script>
 
 </body>
+
 </html>
