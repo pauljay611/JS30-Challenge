@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Videos</title>
 </head>
+
 <body>
   <ul class="videos">
     <li data-time="5:43">
@@ -181,7 +183,25 @@
       Video 58
     </li>
   </ul>
-<script>
-</script>
+  <script>
+    const videos = document.querySelectorAll('li')
+    let timeList = []
+    videos.forEach((video) => {
+      timeList.push(minTosec(video.dataset.time))
+    })
+    let allTime = timeList.reduce((a, b) => {
+      return a + b
+    })
+    let hr = Math.floor(allTime / 3600)
+    let min = Math.floor(allTime % 3600 / 60)
+    let sec = Math.floor(allTime % 3600 % 60)
+    function minTosec(time) {
+      let twoPart = time.split(':')
+      return Number(twoPart[0]) * 60 + Number(twoPart[1])
+    }
+
+    console.log(hr, min, sec)
+  </script>
 </body>
+
 </html>
