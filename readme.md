@@ -1,12 +1,7 @@
 # Morning JS30 Challenge
 ## 紀錄一下早晨的 JS30 挑戰
 
-完成時間
-
-- 2019/5/8 lesson01 
-- 2019/5/9 lesson02
-
-
+開始 2019/5/8 lesson01 
 
 ![](https://javascript30.com/images/JS3-social-share.png)
 
