@@ -38,15 +38,20 @@
 			const items = document.querySelector('.items');
 			let clicking = 0;
 			let start = 0;
+			let scrollLeft = 0;
 			items.addEventListener('mousedown', function(e) {
 				this.classList.add('active');
 				clicking = 1;
-				start = e.offsetX;
+				start = e.pageX;
+				scrollLeft = items.scrollLeft;
 			});
 			items.addEventListener('mousemove', function(e) {
 				if (!clicking) return;
 				e.preventDefault();
-				items.scrollLeft = items.scrollLeft + (start - e.offsetX);
+				let x = e.pageX;
+				let move = start - x;
+				items.scrollLeft = scrollLeft + move;
+				console.log(e.offsetX);
 			});
 			items.addEventListener('mouseup', function() {
 				this.classList.remove('active');
