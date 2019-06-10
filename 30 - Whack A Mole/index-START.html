@@ -42,17 +42,29 @@
       let score = 0;
       let id;
       function startGame() {
-        scoreBoard.textContent = score;
-        setTimeout(() => {
-          setInterval(show, 1500);
-        }, 1000);
+        scoreBoard.textContent = 0;
+        score = 0;
+        timesup = false;
+        let startInterval = setInterval(show, 1000);
+        setTimeout(e => {
+          if (id > -1) holes[id].classList.remove("up");
+          clearInterval(startInterval);
+          alert("end");
+        }, 10000);
       }
       function show() {
-        console.log(id);
         if (id > -1) holes[id].classList.remove("up");
         id = Math.floor(Math.random() * 6);
         holes[id].classList.add("up");
       }
+      moles.forEach(mole => {
+        mole.addEventListener("click", function(e) {
+          if (e.isTrusted !== true) return;
+          score++;
+          scoreBoard.textContent = score;
+          holes[id].classList.remove("up");
+        });
+      });
     </script>
   </body>
 </html>
