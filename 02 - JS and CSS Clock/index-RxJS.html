@@ -63,11 +63,20 @@
 				transform-origin: 100% 3px;
 			}
 		</style>
-
+		<script src="https://unpkg.com/@reactivex/rxjs@5.0.0/dist/global/Rx.js"></script>
 		<script>
+			const { Observable } = Rx
+
 			const hour = document.querySelector('.hour-hand')
 			const min = document.querySelector('.min-hand')
 			const second = document.querySelector('.second-hand')
+
+			const ticking = Observable.interval(100)
+
+			ticking.subscribe(() => {
+				tick()
+			})
+
 			function tick() {
 				const nowDate = new Date()
 				hour.style.transform = `rotate(${(nowDate.getHours() / 12) *
@@ -80,7 +89,6 @@
 					360 +
 					90}deg)`
 			}
-			setInterval(tick, 100)
 		</script>
 	</body>
 </html>

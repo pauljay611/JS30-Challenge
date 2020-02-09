@@ -64,22 +64,31 @@
 				width: 100px;
 			}
 		</style>
-
+		<script src="https://unpkg.com/@reactivex/rxjs@5.0.0/dist/global/Rx.js"></script>
 		<script>
+			const { Observable } = Rx
 			const space = document.querySelector('#spacing')
 			const blur = document.querySelector('#blur')
 			const base = document.querySelector('#base')
 			const img = document.querySelector('img')
 
-			space.addEventListener('input', () => {
-				img.style.padding = `${space.value}${space.dataset.sizing}`
-			})
-			blur.addEventListener('input', () => {
-				img.style.filter = `blur(${blur.value}${blur.dataset.sizing})`
-			})
-			base.addEventListener('input', () => {
-				img.style['background-color'] = `${base.value}`
-			})
+			const spaceEvent = Observable.fromEvent(space, 'input').subscribe(
+				() => {
+					img.style.padding = `${space.value}${space.dataset.sizing}`
+				}
+			)
+
+			const blurEvent = Observable.fromEvent(blur, 'input').subscribe(
+				() => {
+					img.style.filter = `blur(${blur.value}${blur.dataset.sizing})`
+				}
+			)
+
+			const baseEvent = Observable.fromEvent(base, 'input').subscribe(
+				() => {
+					img.style['background-color'] = `${base.value}`
+				}
+			)
 		</script>
 	</body>
 </html>
