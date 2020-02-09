@@ -71,9 +71,7 @@
 			const min = document.querySelector('.min-hand')
 			const second = document.querySelector('.second-hand')
 
-			const ticking = Observable.interval(100)
-
-			ticking.subscribe(() => {
+			Observable.interval(100).subscribe(() => {
 				tick()
 			})
 
