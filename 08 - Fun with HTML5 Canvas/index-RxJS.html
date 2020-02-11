@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>HTML5 Canvas</title>
+	</head>
+
+	<body>
+		<canvas id="draw" width="1920" height="871"></canvas>
+		<script src="https://unpkg.com/@reactivex/rxjs@5.0.0/dist/global/Rx.js"></script>
+		<script>
+			const { Observable } = Rx
+			const canvas = document.getElementById('draw')
+			const ctx = canvas.getContext('2d')
+			window.addEventListener('resize', resizeCanvas, false)
+			canvas.width = window.innerWidth
+			canvas.height = window.innerHeight
+			function resizeCanvas() {
+				w = canvas.width = window.innerWidth
+				h = canvas.height = window.innerHeight
+			}
+			const mouseDown = Observable.fromEvent(canvas, 'mousedown')
+			const mouseUp = Observable.fromEvent(canvas, 'mouseup')
+			const mouseMove = Observable.fromEvent(canvas, 'mousemove')
+			mouseDown
+				.map(event => {
+					ctx.beginPath()
+					let randomWidth = Math.floor(Math.random() * 100)
+					let randomColor = Math.floor(Math.random() * 360)
+					ctx.lineWidth = randomWidth
+					ctx.strokeStyle = `hsl(${randomColor}, 100%, 50%)`
+					ctx.lineJoin = 'round'
+					ctx.lineCap = 'round'
+					ctx.moveTo(event.clientX, event.clientY)
+					return mouseMove.takeUntil(mouseUp)
+				})
+				.concatAll()
+				.map(m => {
+					return {
+						x: m.clientX,
+						y: m.clientY
+					}
+				})
+				.subscribe(pos => {
+					console.log(pos)
+					ctx.lineTo(pos.x, pos.y)
+					ctx.stroke()
+				})
+		</script>
+
+		<style>
+			html,
+			body {
+				margin: 0;
+				width: 100%;
+				height: 100%;
+			}
+
+			#draw {
+				width: 100vw;
+				height: 100vh;
+			}
+		</style>
+	</body>
+</html>
