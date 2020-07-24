@@ -66,7 +66,7 @@
 		const keysTransitioned = Observable.fromEvent(keys, 'transitionend').subscribe(function (e) {
 			e.target.classList.remove('playing')
 		})
-		const keysClicked = Observable.fromEvent(keys, 'click').map(e => e.target.closest('.key')).subscribe(val => {
+		const keysClicked = Observable.fromEvent(keys, 'click').map(e => e.target.closest('.key')).filter(e => e).subscribe(val => {
 			const audio = document.querySelector(
 				`audio[data-key="${val.dataset.key}"]`
 			)
